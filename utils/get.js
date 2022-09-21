@@ -9,23 +9,24 @@ export async function asyncAwaitFetchData(items, num) {
 
   try {
     const data = await generateFetch(
-        'GET',
-         `https://api.coingecko.com/api/v3/coins/${items}`)
+      'GET',
+      `https://api.coingecko.com/api/v3/coins/${items}`
+    )
     const dataJson = await data.json()
     // console.log(dataJson);
     // const dataRes = await Promise.allSettled(dataJson)
     // const dataJsonRes = await jsonAll(dataRes)
-    if(num){
-for (let i = 0; i < num; i++) {
-  cryptoArr.push(dataJson[i])
-}
+    if (num) {
+      for (let i = 0; i < num; i++) {
+        cryptoArr.push(dataJson[i])
+      }
     } else {
       return dataJson
     }
-// console.log(cryptoArr);
-// setTimeout(() => {div.html('') 
-// initDataToHtml(cryptoArr, div)
-// },2000)
+    // console.log(cryptoArr);
+    // setTimeout(() => {div.html('')
+    // initDataToHtml(cryptoArr, div)
+    // },2000)
     // const promises = []
     // for (const store of storesJson) {
     //   storesArr.push(store)
@@ -82,11 +83,8 @@ for (let i = 0; i < num; i++) {
     // }
     // console.log(storesArr);
     // getDataToHTML(storesArr, div)
- return cryptoArr
+    return cryptoArr
   } catch (error) {
     console.log(error)
   }
 }
-
-
-

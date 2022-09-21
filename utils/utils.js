@@ -1,4 +1,5 @@
 import { asyncAwaitFetchData } from './get.js'
+import { rememberChecked } from './toggles.js'
 
 async function jsonAll(responses) {
   const promises = []
@@ -45,39 +46,49 @@ async function initDataToHtml(data, location) {
     let counter = 0
     setTimeout(() => {
       location.html('')
-    for (const item of data) {
-      location.append(`<div class="col">
+      for (const item of data) {
+        location.append(`<div class="col">
     <div class="card text-start justify-content-between">
         <div id="label">
             <div class="card-body ps-4">
                 <h5 class="card-title mb-3">${item.symbol}</h5>
                 <h6 class="card-subtitle mb-3 text-muted">${item.name}</h6>
-                <a type="button" timeStemp=1 id=${item.id} class="btn btn-card btn-primary" data-bs-toggle="collapse"
+                <a type="button" timeStemp=1 id=${item.id} class="btn btn-card btn-success" data-bs-toggle="collapse"
                     data-bs-target="#cardText${counter}" aria-expanded="false"
                     aria-controls="cardText${counter}">More Info</a>
                 <div class="collapse" id=cardText${counter} >
-                    <p class="card-text">${item.id}Some quick example text to build on the card title and make up the
-                        bulk
-                        of the
-                        card's content.
-                    </p>
+                    <div class="spinner-border text-success" role="status">
+                  </div>
+                    
                 </div>
             </div>
         </div>
         <div class="switchContainer pt-3 pe-2">
             <label class="switch">
-                <input type="checkbox">
+                <input type="checkbox" class="checkbox">
                 <span class="slider round"></span>
             </label>
-            <img class="coinImg" src="">
+            <img class="" src="">
         </div>
     </div>
 </div>`)
-      counter++
-    }
-  
-    $('.btn-card').on('click', function (event) { genarateMoreInfo(event) })
-    },2000)
+        counter++
+      }
+
+      $('.btn-card').on('click', function (event) {
+        genarateMoreInfo(event)
+      })
+
+      $('.checkbox').on('click', function (event) {
+        const id = $(this)
+          .closest('.switchContainer')
+          .prev('#label')
+          .children('.card-body')
+          .children('a')
+          .attr('id')
+        rememberChecked(event, id)
+      })
+    }, 1000)
   } catch (error) {
     console.log(error)
   }
@@ -88,25 +99,48 @@ async function genarateMoreInfo(event) {
   const eventTime = $(event.target).attr('timeStemp')
   const numberTime = parseInt(eventTime)
 
-  if(timeStemp > numberTime + 120000){
-  $(event.target).attr('timeStemp', timeStemp)
-  const requestId = $(event.target).attr('id')
-  const moreInfoTarget = $(event.target).next('div').find('p')
-  const cardNum = $(event.target).next('div').attr('id')
-  const imgLocation = $(event.target).parentsUntil('.label').siblings('.switchContainer').children('.coinImg')
+  if (timeStemp > numberTime + 120000) {
+    $(event.target).attr('timeStemp', timeStemp)
+    const requestId = $(event.target).attr('id')
+    const moreInfoTarget = $(event.target).next('div').find('.spinner-border')
+    const cardNum = $(event.target).next('div').attr('id')
+    const imgLocation = $(event.target)
+      .parentsUntil('.label')
+      .siblings('.switchContainer')
+      .children('img')
 
-  const data = await asyncAwaitFetchData(requestId)
+    const data = await asyncAwaitFetchData(requestId)
 
-  imgLocation.attr('src', data.image.small)
+    imgLocation.attr({ class: 'coinImg', src: data.image.small })
 
-  moreInfoTarget.text('')
-
-  moreInfoTarget.parent().append(`<p>USD: ${data.market_data.current_price.usd}$ </p>
+    setTimeout(() => {
+      moreInfoTarget.parent()
+        .append(`<p>USD: ${data.market_data.current_price.usd} $ </p>
   <p>EUR: ${data.market_data.current_price.eur} € </p>
   <p>ILS: ${data.market_data.current_price.ils} \u20AA</p>`)
+
+      moreInfoTarget.remove()
+    }, 1000)
   }
 
   return
 }
+
+// function filter() {
+//   const search = $('#search')[0]
+//   const elements = $('.card')
+//   for (const element of elements) {
+//     let symbol = $(element).find('h5').html()
+//     let name = $(element).find('h6').html()
+//     if (
+//       symbol.toUpperCase().indexOf(search.value.toUpperCase()) > -1 ||
+//       name.toUpperCase().indexOf(search.value.toUpperCase()) > -1
+//     ) {
+//       $(element).parent().attr('style', 'display = ""')
+//     } else {
+//       $(element).parent().attr('style', 'display : none')
+//     }
+//   }
+// }
 
 export { generateFetch, jsonAll, initDataToHtml }
