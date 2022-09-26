@@ -1,20 +1,18 @@
 import { asyncAwaitFetchData } from './utils/get.js'
 import { initDataToHtml } from './utils/utils.js'
 import { renderSkelletons } from './utils/loading.js'
-// import { showHome, showLive, showAbout } from './utils/views.js'
+import { showHome, showLive, showAbout } from './utils/views.js'
 
 const cardContainer = $('#cardContainer')
 renderSkelletons(cardContainer)
 initDataToHtml(await asyncAwaitFetchData('list', 100), cardContainer)
 
-// $('#cryptOfir'), $('#home').on('click', showHome())
-// $('live').on('click', showLive())
-// $('about').on('click', showAbout())
-
-// $('#search')[0].on('keyup', filter())
+$('#cryptOfir, #home').on('click', showHome)
+$('#live').on('click', showLive)
+$('#about').on('click', showAbout)
 
 const searchInput = $('#search')[0]
-//
+
 $(searchInput).on('keyup', function () {
   const elements = $('.card')
   for (const element of elements) {
@@ -30,4 +28,3 @@ $(searchInput).on('keyup', function () {
     }
   }
 })
-//

@@ -33,16 +33,6 @@ async function generateFetch(method, url, data = null) {
 
 async function initDataToHtml(data, location) {
   try {
-    // const cryptoArr = []
-
-    // for (let i = 0; i < 100; i++) {
-    //   cryptoArr.push(data[i])
-    // }
-    // console.log(cryptoArr)
-    // setTimeout(() => {
-    //   initDataToHtml(cryptoArr, div)
-    // }, 2000)
-
     let counter = 0
     setTimeout(() => {
       location.html('')
@@ -80,15 +70,15 @@ async function initDataToHtml(data, location) {
       })
 
       $('.checkbox').on('click', function (event) {
-        const id = $(this)
+        const symbol = $(this)
           .closest('.switchContainer')
           .prev('#label')
           .children('.card-body')
-          .children('a')
-          .attr('id')
-        rememberChecked(event, id)
+          .children('h5')
+          .text()
+        rememberChecked(event, symbol)
       })
-    }, 1000)
+    }, 1500)
   } catch (error) {
     console.log(error)
   }
@@ -103,7 +93,6 @@ async function genarateMoreInfo(event) {
     $(event.target).attr('timeStemp', timeStemp)
     const requestId = $(event.target).attr('id')
     const moreInfoTarget = $(event.target).next('div').find('.spinner-border')
-    const cardNum = $(event.target).next('div').attr('id')
     const imgLocation = $(event.target)
       .parentsUntil('.label')
       .siblings('.switchContainer')
@@ -125,22 +114,5 @@ async function genarateMoreInfo(event) {
 
   return
 }
-
-// function filter() {
-//   const search = $('#search')[0]
-//   const elements = $('.card')
-//   for (const element of elements) {
-//     let symbol = $(element).find('h5').html()
-//     let name = $(element).find('h6').html()
-//     if (
-//       symbol.toUpperCase().indexOf(search.value.toUpperCase()) > -1 ||
-//       name.toUpperCase().indexOf(search.value.toUpperCase()) > -1
-//     ) {
-//       $(element).parent().attr('style', 'display = ""')
-//     } else {
-//       $(element).parent().attr('style', 'display : none')
-//     }
-//   }
-// }
 
 export { generateFetch, jsonAll, initDataToHtml }

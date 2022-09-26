@@ -20,6 +20,5 @@ function renderSkelletons(location) {
   for (let i = 0; i < 15; i++) {
     location.append(skeletonCard)
   }
-  // console.log(skeletonCard)
 }
 export { renderSkelletons }
