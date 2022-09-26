@@ -38,7 +38,7 @@ async function initDataToHtml(data, location) {
       location.html('')
       for (const item of data) {
         location.append(`<div class="col">
-    <div class="card text-start justify-content-between">
+    <div class="card coinCard text-start justify-content-between">
         <div id="label">
             <div class="card-body ps-4">
                 <h5 class="card-title mb-3">${item.symbol}</h5>

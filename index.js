@@ -11,20 +11,36 @@ $('#cryptOfir, #home').on('click', showHome)
 $('#live').on('click', showLive)
 $('#about').on('click', showAbout)
 
-const searchInput = $('#search')[0]
 
+const searchInput = $('#search')[0]
 $(searchInput).on('keyup', function () {
-  const elements = $('.card')
-  for (const element of elements) {
-    let symbol = $(element).find('h5').html()
-    let name = $(element).find('h6').html()
+  const elements = $('.coinCard')
+  const valueUp = this.value.toUpperCase()
+  $.each(elements, function (key, value){
+    let symbol = $(elements[key]).find('h5').html()
+    let name = $(elements[key]).find('h6').html()
+
+
     if (
-      symbol.toUpperCase().indexOf(this.value.toUpperCase()) > -1 ||
-      name.toUpperCase().indexOf(this.value.toUpperCase()) > -1
+      symbol.toUpperCase().indexOf(valueUp) > -1 ||
+      name.toUpperCase().indexOf(valueUp) > -1
     ) {
-      $(element).parent().attr('style', 'display = ""')
+      $(elements[key]).parent().attr('style', 'display = ""')
     } else {
-      $(element).parent().attr('style', 'display : none')
+      $(elements[key]).parent().attr('style', 'display : none')
     }
-  }
+  })
+  
+  // for (const element of elements) {
+  //   let symbol = $(element).find('h5').html()
+  //   let name = $(element).find('h6').html()
+  //   if (
+  //     symbol.toUpperCase().indexOf(this.value.toUpperCase()) > -1 ||
+  //     name.toUpperCase().indexOf(this.value.toUpperCase()) > -1
+  //   ) {
+  //     $(element).parent().attr('style', 'display = ""')
+  //   } else {
+  //     $(element).parent().attr('style', 'display : none')
+  //   }
+  // }
 })
