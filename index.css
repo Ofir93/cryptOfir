@@ -41,6 +41,7 @@ p {
   width: 8rem;
   align-self: flex-end;
   margin: 0.5rem;
+  border: solid 5px #212529;
 }
 
 .parallax {
@@ -254,7 +255,8 @@ input:checked + .slider:before {
 }
 
 .box {
-  position: absolute;
+  position: relative;
+  width: 60%;
   top: 10%;
   left: 20%;
   right: 20%;
@@ -298,7 +300,10 @@ input:checked + .slider:before {
 
 .carousel1,
 .carousel2,
-.carousel3 {
+.carousel3,
+.carousel4,
+.carousel5,
+.carousel6 {
   height: 30rem;
 }
 

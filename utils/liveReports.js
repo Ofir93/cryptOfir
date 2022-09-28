@@ -1,9 +1,7 @@
 import { checkedArr } from './toggles.js'
-import { showAlert } from './views.js'
+import { showAlert, showHome, stopLIve } from './views.js'
 
 function renderLiveReports() {
-  var dataPoints = []
-
   var options = {
     animationEnabled: true,
     theme: 'light2',
@@ -41,17 +39,22 @@ function renderLiveReports() {
   var newDataCount = 6
 
   function addData(data) {
-    console.log(data)
-
     let coinCount = 0
 
     if (newDataCount != 1) {
       $.each(checkedArr, function (key, value) {
         let index = $.inArray(value.toUpperCase(), Object.keys(data))
         if (index === -1) {
-          showAlert(value)
+          setTimeout(() => {
+            showAlert(value)
+          }, 1000)
         }
       })
+
+      if (data.Response === 'Error') {
+        showHome()
+        return
+      }
 
       $.each(data, function (key, value) {
         options.data.push({
@@ -70,8 +73,10 @@ function renderLiveReports() {
         coinCount++
       })
     } else {
-      dataPoints.shift()
       $.each(data, function (key, value) {
+        if(stopLIve){
+          return
+        }
         options.data[coinCount].dataPoints.push({
           x: new Date(),
           y: value.USD,

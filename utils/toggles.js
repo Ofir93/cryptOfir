@@ -8,10 +8,15 @@ function rememberChecked(event, symbol) {
     ? (checkedArr.push(symbol), checkCounter++)
     : (checkCounter--,
       (checkedArr = checkedArr.filter((name) => name !== symbol)))
-  let exequted = false
+  let filtered = checkedArr.filter((element, index) => {
+    return checkedArr.indexOf(element) === index
+  })
+  checkedArr = filtered
+  checkCounter = checkedArr.length
+
 
   if (checkCounter > 5) {
-    if (!exequted) {
+    
       $('body').append(`<div class="backdrop container-fluid">
       <div class="box">
       <img src="./photos/funnyy.jpg" class="imgF">
@@ -69,7 +74,7 @@ function rememberChecked(event, symbol) {
           </div>
       </div>
   </div>`)
-      exequted = true
+    
 
       $('.close').click(function () {
         event.target.checked = false
@@ -80,6 +85,7 @@ function rememberChecked(event, symbol) {
       $('#submitCoins').click(() => {
         const allChecked = $('.checkboxCon')
         allChecked.each(function () {
+          
           if (!this.checked) {
             const unToggle = $(this).parent().prev().text()
             $('h5').each((i, element) => {
@@ -91,24 +97,28 @@ function rememberChecked(event, symbol) {
                   .prop('checked', false)
               }
             })
-
             checkedArr.splice(this.index, 1)
+          }
+          if (this.checked) {
+            const unToggle = $(this).parent().prev().text()
+            if(!checkedArr.includes(unToggle)){
+              checkedArr.push(unToggle)
+            }
           }
         })
         if (checkedArr.length != 5) {
           alert('Please select Five coins and try again')
           return
-        }
-        console.log(checkedArr)
+        }    
         showLive()
         closeBackdrop()
+        checkCounter = 0    
       })
 
       $('.backdrop, .box').animate({ opacity: '.90' }, 300, 'linear')
       $('.box').animate({ opacity: '1.00' }, 300, 'linear')
       $('.backdrop, .box').css('display', 'block')
       $('body').css('overflow', 'hidden')
-    }
     return
   }
 }
@@ -121,4 +131,11 @@ function closeBackdrop() {
   })
 }
 
-export { rememberChecked, checkedArr }
+function clearArr(){
+  while(checkedArr.length > 0) {
+    checkedArr.pop();
+}  
+checkCounter = 0    
+}
+
+export { rememberChecked, checkedArr, clearArr }
