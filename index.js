@@ -31,16 +31,4 @@ $(searchInput).on('keyup', function () {
     }
   })
   
-  // for (const element of elements) {
-  //   let symbol = $(element).find('h5').html()
-  //   let name = $(element).find('h6').html()
-  //   if (
-  //     symbol.toUpperCase().indexOf(this.value.toUpperCase()) > -1 ||
-  //     name.toUpperCase().indexOf(this.value.toUpperCase()) > -1
-  //   ) {
-  //     $(element).parent().attr('style', 'display = ""')
-  //   } else {
-  //     $(element).parent().attr('style', 'display : none')
-  //   }
-  // }
 })
